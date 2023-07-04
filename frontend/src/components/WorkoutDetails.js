@@ -18,6 +18,10 @@ function WorkoutDetails({ workout }) {
     }
   };
 
+  const handleEdit = async (work) => {
+    console.log("Edit", work);
+  }
+
   return (
     <div className="workout-details">
       <h4>{workout.title}</h4>
@@ -35,6 +39,8 @@ function WorkoutDetails({ workout }) {
       <span className="material-symbols-outlined" onClick={handleDelete}>
         Delete
       </span>
+      ||
+      <span className="material-symbols-outlined" onClick={()=>handleEdit(workout)}>edit</span>
     </div>
   );
 }
