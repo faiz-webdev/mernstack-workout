@@ -1,12 +1,30 @@
-import { createContext } from "react";
+import { createContext, useReducer } from "react";
 
-const WorkoutContext = createContext();
+export const WorkoutContext = createContext();
 
-export const WorkoutsContextProvider = () => {
+export const workoutReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_WORKOUT":
+      return {
+        workout: action.payload,
+      };
+    case "CREATE_WORKOUT":
+      return {
+        workout: [action.payload, ...state.workout],
+      };
+    default:
+      return state;
+  }
+};
 
-    return (
-        <WorkoutContext.Provider>
+export const WorkoutsContextProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(workoutReducer, {
+    workout: null,
+  });
 
-        </WorkoutContext.Provider>
-    )
-}
+  return (
+    <WorkoutContext.Provider value={{ ...state, dispatch }}>
+      {children}
+    </WorkoutContext.Provider>
+  );
+};
