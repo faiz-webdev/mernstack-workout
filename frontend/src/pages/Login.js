@@ -30,7 +30,7 @@ function Login() {
         value={password}
       />
 
-      <button disabled={isLoading} onClick={handleSubmit}>Signup</button>
+      <button disabled={isLoading} onClick={handleSubmit}>Login</button>
       {error && <div className="error">{error}</div>}
     </form>
   );
