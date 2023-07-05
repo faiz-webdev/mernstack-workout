@@ -1,14 +1,23 @@
 import React from "react";
 import { useWorkoutContext } from "../components/hooks/useWorkoutContext";
+import { useAuthContext } from "./hooks/useAuthContext";
 //date fns
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 function WorkoutDetails({ workout }) {
   const { dispatch } = useWorkoutContext();
+  const { user } = useAuthContext();
 
   const handleDelete = async () => {
+    if (!user) {
+      return;
+    }
+
     const response = await fetch(`/api/workouts/${workout._id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
 
     const json = await response.json();
@@ -20,7 +29,7 @@ function WorkoutDetails({ workout }) {
 
   const handleEdit = async (work) => {
     console.log("Edit", work);
-  }
+  };
 
   return (
     <div className="workout-details">
@@ -40,7 +49,12 @@ function WorkoutDetails({ workout }) {
         Delete
       </span>
       ||
-      <span className="material-symbols-outlined" onClick={()=>handleEdit(workout)}>edit</span>
+      <span
+        className="material-symbols-outlined"
+        onClick={() => handleEdit(workout)}
+      >
+        edit
+      </span>
     </div>
   );
 }
